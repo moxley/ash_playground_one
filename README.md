@@ -1,1 +1,1 @@
-# Test Ash with GraphQL
+# Test Ash 3.0 with AshGraphql

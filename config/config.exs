@@ -31,6 +31,8 @@ config :one, OneWeb.Endpoint,
 # at the `config/runtime.exs`.
 config :one, One.Mailer, adapter: Swoosh.Adapters.Local
 
+config :one, :ash_domains, [Helpdesk.Support]
+
 # Configure esbuild (the version is required)
 config :esbuild,
   version: "0.17.11",
