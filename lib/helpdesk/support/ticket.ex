@@ -1,6 +1,6 @@
 defmodule Helpdesk.Support.Ticket do
   # This turns this module into a resource
-  use Ash.Resource, domain: Helpdesk.Support
+  use Ash.Resource, domain: Helpdesk.Support, data_layer: AshPostgres.DataLayer
 
   actions do
     # Use the default implementation of the :read action
@@ -33,5 +33,10 @@ defmodule Helpdesk.Support.Ticket do
       # We also don't want status to ever be `nil`
       allow_nil? false
     end
+  end
+
+  postgres do
+    table "tickets"
+    repo One.Repo
   end
 end

@@ -33,6 +33,7 @@ defmodule One.MixProject do
   defp deps do
     [
       {:ash, "~> 3.0"},
+      {:ash_postgres, "~> 2.0"},
       {:picosat_elixir, "~> 0.2"},
       {:phoenix, "~> 1.7.14"},
       {:phoenix_ecto, "~> 4.5"},

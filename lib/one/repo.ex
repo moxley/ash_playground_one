@@ -1,5 +1,9 @@
 defmodule One.Repo do
-  use Ecto.Repo,
-    otp_app: :one,
-    adapter: Ecto.Adapters.Postgres
+  use AshPostgres.Repo, otp_app: :one
+
+  def installed_extensions do
+    # Ash installs some functions that it needs to run the
+    # first time you generate migrations.
+    ["ash-functions"]
+  end
 end
