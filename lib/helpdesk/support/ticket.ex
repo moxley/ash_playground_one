@@ -17,5 +17,21 @@ defmodule Helpdesk.Support.Ticket do
 
     # Add a string type attribute called `:subject`
     attribute :subject, :string
+
+    # status is either `open` or `closed`. We can add more statuses later
+    attribute :status, :atom do
+      # Constraints allow you to provide extra rules for the value.
+      # The available constraints depend on the type
+      # See the documentation for each type to know what constraints are available
+      # Since atoms are generally only used when we know all of the values
+      # it provides a `one_of` constraint, that only allows those values
+      constraints [one_of: [:open, :closed]]
+
+      # The status defaulting to open makes sense
+      default :open
+
+      # We also don't want status to ever be `nil`
+      allow_nil? false
+    end
   end
 end
