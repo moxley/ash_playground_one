@@ -33,6 +33,12 @@ config :one, One.Mailer, adapter: Swoosh.Adapters.Local
 
 config :one, :ash_domains, [Helpdesk.Support]
 
+config :one, One.Guardian,
+  issuer: "one",
+  secret_key: "MoFS8jIwG03J/qFx1Yzn+qPGA3+gh+m4SOFqVEXiHeMJm0IA9qlFsCm0GpqN1fKx"
+
+# Libraries
+
 # Configure esbuild (the version is required)
 config :esbuild,
   version: "0.17.11",
