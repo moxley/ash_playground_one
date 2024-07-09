@@ -12,6 +12,7 @@ defmodule OneWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug AshGraphql.Plug
   end
 
   scope "/", OneWeb do
@@ -20,12 +21,17 @@ defmodule OneWeb.Router do
     get "/", PageController, :home
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", OneWeb do
-  #   pipe_through :api
-  # end
+  # GraphQL
+  scope "/" do
+    pipe_through [:api]
 
-  forward "/api/gql", Absinthe.Plug, schema: OneWeb.GraphqlSchema
+    forward "/gql", Absinthe.Plug, schema: Module.concat(["OneWeb.GraphqlSchema"])
+
+    forward "/playground",
+            Absinthe.Plug.GraphiQL,
+            schema: Module.concat(["OneWeb.GraphqlSchema"]),
+            interface: :playground
+  end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:one, :dev_routes) do
