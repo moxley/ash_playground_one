@@ -3,16 +3,24 @@ defmodule Helpdesk.Support.Representative do
   use Ash.Resource,
     domain: Helpdesk.Support,
     data_layer: AshPostgres.DataLayer,
-    extensions: [AshGraphql.Resource]
+    extensions: [AshGraphql.Resource],
+    authorizers: [Ash.Policy.Authorizer]
 
   actions do
+    default_accept :*
     defaults [:create, :update, :destroy, :read]
   end
 
   attributes do
     uuid_primary_key :id
 
-    attribute :name, :string
+    attribute :name, :string, public?: true
+  end
+
+  policies do
+    policy action [:create, :update, :destroy, :read] do
+      authorize_if(always())
+    end
   end
 
   postgres do

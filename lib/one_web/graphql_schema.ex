@@ -23,4 +23,7 @@ defmodule OneWeb.GraphqlSchema do
       end)
     end
   end
+
+  mutation do
+  end
 end
