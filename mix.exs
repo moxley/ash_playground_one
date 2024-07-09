@@ -32,7 +32,10 @@ defmodule One.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:absinthe, "~> 1.7"},
+      {:absinthe_plug, "~> 1.5"},
       {:ash, "~> 3.0"},
+      {:ash_graphql, "~> 1.2"},
       {:ash_postgres, "~> 2.0"},
       {:picosat_elixir, "~> 0.2"},
       {:phoenix, "~> 1.7.14"},

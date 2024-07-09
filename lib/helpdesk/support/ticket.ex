@@ -1,10 +1,13 @@
 defmodule Helpdesk.Support.Ticket do
   # This turns this module into a resource
-  use Ash.Resource, domain: Helpdesk.Support, data_layer: AshPostgres.DataLayer
+  use Ash.Resource,
+    domain: Helpdesk.Support,
+    data_layer: AshPostgres.DataLayer,
+    extensions: [AshGraphql.Resource]
 
   actions do
     # Use the default implementation of the :read action
-    defaults [:read]
+    defaults [:read, :update, :destroy]
 
     # and a create action, which we'll customize later
     create :create
@@ -25,7 +28,7 @@ defmodule Helpdesk.Support.Ticket do
       # See the documentation for each type to know what constraints are available
       # Since atoms are generally only used when we know all of the values
       # it provides a `one_of` constraint, that only allows those values
-      constraints [one_of: [:open, :closed]]
+      constraints one_of: [:open, :closed]
 
       # The status defaulting to open makes sense
       default :open
@@ -38,5 +41,20 @@ defmodule Helpdesk.Support.Ticket do
   postgres do
     table "tickets"
     repo One.Repo
+  end
+
+  graphql do
+    type :ticket
+
+    queries do
+      get :get_ticket, :read
+      list :list_tickets, :read
+    end
+
+    mutations do
+      create :create_ticket, :create
+      update :update_ticket, :update
+      destroy :destroy_ticket, :destroy
+    end
   end
 end

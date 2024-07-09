@@ -25,6 +25,8 @@ defmodule OneWeb.Router do
   #   pipe_through :api
   # end
 
+  forward "/api/gql", Absinthe.Plug, schema: OneWeb.GraphqlSchema
+
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:one, :dev_routes) do
     # If you want to use the LiveDashboard in production, you should put
