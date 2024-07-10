@@ -6,9 +6,26 @@ defmodule Helpdesk.Support.Representative do
     extensions: [AshGraphql.Resource],
     authorizers: [Ash.Policy.Authorizer]
 
+  alias Helpdesk.CurrentActorRead
+
   actions do
     default_accept :*
     defaults [:create, :update, :destroy, :read]
+
+    update :update_self do
+    end
+
+    read :current_actor do
+      get? true
+
+      prepare fn query, context ->
+        dbg(query)
+        dbg(context)
+        query
+      end
+
+      manual CurrentActorRead
+    end
   end
 
   attributes do
@@ -33,12 +50,23 @@ defmodule Helpdesk.Support.Representative do
 
     queries do
       get :get_representative, :read
+
+      get :get_representative_self, :current_actor do
+        identity false
+      end
+
       list :list_representatives, :read
     end
 
     mutations do
       create :create_representative, :create
       update :update_representative, :update
+
+      update :update_representative_self, :update_self do
+        identity false
+        read_action :current_actor
+      end
+
       destroy :destroy_representative, :destroy
     end
   end
