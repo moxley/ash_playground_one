@@ -34,7 +34,7 @@ defmodule One.MixProject do
     [
       {:absinthe, "~> 1.7"},
       {:absinthe_plug, "~> 1.5"},
-      {:ash, "~> 3.0"},
+      {:ash, "~> 3.1.2"},
       {:ash_graphql, "~> 1.2"},
       {:ash_postgres, "~> 2.0"},
       {:picosat_elixir, "~> 0.2"},
