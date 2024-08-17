@@ -18,12 +18,6 @@ defmodule Helpdesk.Support.Representative do
     read :current_actor do
       get? true
 
-      prepare fn query, context ->
-        dbg(query)
-        dbg(context)
-        query
-      end
-
       manual CurrentActorRead
     end
   end

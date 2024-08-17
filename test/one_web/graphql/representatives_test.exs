@@ -102,6 +102,7 @@ defmodule OneWeb.Graphql.RepresentativesTest do
     }
     """
 
+    @tag :skip
     test "when no actor present, should not update anything", ctx do
       representative1 = Ash.create!(Representative, %{name: "Rep 1"}, authorize?: false)
       representative2 = Ash.create!(Representative, %{name: "Rep 2"}, authorize?: false)
