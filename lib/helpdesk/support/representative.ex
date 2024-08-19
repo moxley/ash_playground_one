@@ -31,8 +31,12 @@ defmodule Helpdesk.Support.Representative do
   end
 
   policies do
-    policy action [:create, :update, :destroy, :read] do
+    policy action [:read] do
       authorize_if(always())
+    end
+
+    policy action [:create, :update, :destroy] do
+      authorize_if actor_attribute_equals(:is_admin, true)
     end
 
     policy action [:read_self, :update_self] do
