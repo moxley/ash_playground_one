@@ -15,7 +15,7 @@ defmodule Helpdesk.Support.Representative do
     update :update_self do
     end
 
-    read :current_actor do
+    read :read_self do
       get? true
 
       manual CurrentActorRead
@@ -41,11 +41,11 @@ defmodule Helpdesk.Support.Representative do
   end
 
   field_policies do
-    field_policy [:is_admin, :name, :permissions] do
+    field_policy_bypass [:is_admin, :name, :permissions] do
       authorize_if actor_attribute_equals(:is_admin, true)
     end
 
-    field_policy [:name] do
+    field_policy_bypass [:name] do
       authorize_if actor_attribute_equals(:__struct__, __MODULE__)
     end
   end
@@ -61,7 +61,7 @@ defmodule Helpdesk.Support.Representative do
     queries do
       get :get_representative, :read
 
-      get :get_representative_self, :current_actor do
+      get :get_representative_self, :read_self do
         identity false
       end
 
@@ -74,7 +74,7 @@ defmodule Helpdesk.Support.Representative do
 
       update :update_representative_self, :update_self do
         identity false
-        read_action :current_actor
+        read_action :read_self
       end
 
       destroy :destroy_representative, :destroy
