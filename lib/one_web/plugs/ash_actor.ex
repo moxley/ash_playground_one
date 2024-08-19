@@ -4,7 +4,7 @@ defmodule OneWeb.Plugs.AshActor do
   def init(opts), do: opts
 
   def call(conn, _opts) do
-    with ["" <> token] <- get_req_header(conn, "authorization"),
+    with ["Bearer " <> token] <- get_req_header(conn, "authorization"),
          {:ok, user, _claims} <- One.Guardian.resource_from_token(token) do
       conn
       |> Ash.PlugHelpers.set_actor(user)

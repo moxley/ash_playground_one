@@ -103,6 +103,29 @@ defmodule OneWeb.Graphql.RepresentativesTest do
     }
     """
 
+    test "updates self when actor present", ctx do
+      representative1 = Ash.create!(Representative, %{name: "Rep 1"}, authorize?: false)
+      input = %{name: "New Name"}
+      params = %{query: @update_representative_self, variables: %{input: input}}
+      {:ok, jwt, _claims} = One.Guardian.encode_and_sign(representative1)
+
+      resp =
+        ctx.conn
+        |> put_req_header("authorization", "Bearer #{jwt}")
+        |> post("/gql", params)
+        |> json_response(200)
+
+      representative1 = One.Repo.get!(Representative, representative1.id)
+      # Fails here: name is now "New Name"
+      assert representative1.name == "New Name"
+
+      assert %{"data" => %{"updateRepresentativeSelf" => update_resp}} = resp
+      assert update_resp["errors"] == []
+      assert %{"result" => result} = update_resp
+      # Fails here: result is not nil
+      assert %{"id" => _id, "name" => "New Name"} = result
+    end
+
     @tag :skip
     test "when no actor present, should not update anything", ctx do
       representative1 = Ash.create!(Representative, %{name: "Rep 1"}, authorize?: false)
@@ -111,8 +134,11 @@ defmodule OneWeb.Graphql.RepresentativesTest do
       input = %{name: "New Name"}
       params = %{query: @update_representative_self, variables: %{input: input}}
 
+      {:ok, jwt, _claims} = One.Guardian.encode_and_sign(representative1)
+
       resp =
         ctx.conn
+        |> put_req_header("authorization", "Bearer #{jwt}")
         |> post("/gql", params)
         |> json_response(200)
 

@@ -33,6 +33,10 @@ defmodule Helpdesk.Support.Representative do
     policy action [:create, :update, :destroy, :read] do
       authorize_if(always())
     end
+
+    policy action [:read_self, :update_self] do
+      authorize_if actor_attribute_equals(:__struct__, __MODULE__)
+    end
   end
 
   postgres do
