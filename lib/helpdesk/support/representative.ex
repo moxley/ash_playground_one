@@ -41,7 +41,7 @@ defmodule Helpdesk.Support.Representative do
   end
 
   field_policies do
-    field_policy [:is_admin, :permissions] do
+    field_policy [:permissions] do
       authorize_if actor_attribute_equals(:is_admin, true)
     end
 

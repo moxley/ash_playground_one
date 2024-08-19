@@ -37,7 +37,7 @@ config :phoenix_live_view,
   enable_expensive_runtime_checks: true
 
 config :ash, :policies,
-  show_policy_breakdowns?: true,
+  # show_policy_breakdowns?: true,
   log_policy_breakdowns: :warning
 
 config :ash_graphql, :policies, show_policy_breakdowns?: true
