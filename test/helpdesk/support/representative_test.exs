@@ -6,7 +6,7 @@ defmodule Helpdesk.Support.RepresentativeTest do
   alias Ash.Changeset
   alias Helpdesk.Support.Representative
 
-  test "read and update Representative as self" do
+  test "read_self" do
     representative =
       Representative
       |> Changeset.for_create(:create, %{name: "Jane Doe"}, authorize?: false)
@@ -20,7 +20,7 @@ defmodule Helpdesk.Support.RepresentativeTest do
     _representative = Ash.read_one!(query)
   end
 
-  test "update Representative as self" do
+  test "update_self" do
     representative =
       Representative
       |> Ash.Changeset.for_create(:create, %{name: "Jane Doe"}, authorize?: false)
@@ -38,7 +38,7 @@ defmodule Helpdesk.Support.RepresentativeTest do
     |> Ash.update!(actor: representative)
   end
 
-  test "update Representative as admin" do
+  test ":update as admin" do
     representative =
       Representative
       |> Ash.Changeset.for_create(:create, %{name: "Jane Doe"}, authorize?: false)
