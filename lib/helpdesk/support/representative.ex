@@ -26,6 +26,7 @@ defmodule Helpdesk.Support.Representative do
     uuid_primary_key :id
 
     attribute :name, :string, public?: true
+    attribute :permissions, Helpdesk.Support.Permissions, public?: true
   end
 
   policies do

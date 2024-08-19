@@ -52,6 +52,7 @@ defmodule OneWeb.Graphql.RepresentativesTest do
         |> json_response(200)
 
       assert %{"data" => %{"createRepresentative" => create_resp}} = resp
+      assert create_resp["errors"] == []
       assert %{"result" => result} = create_resp
       assert result["id"]
       assert result["name"] == "Jane Doe"
