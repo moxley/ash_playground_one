@@ -41,11 +41,11 @@ defmodule Helpdesk.Support.Representative do
   end
 
   field_policies do
-    field_policy_bypass [:is_admin, :name, :permissions] do
+    field_policy [:is_admin, :permissions] do
       authorize_if actor_attribute_equals(:is_admin, true)
     end
 
-    field_policy_bypass [:name] do
+    field_policy :* do
       authorize_if actor_attribute_equals(:__struct__, __MODULE__)
     end
   end
