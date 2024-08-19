@@ -27,6 +27,7 @@ defmodule Helpdesk.Support.Representative do
 
     attribute :name, :string, public?: true
     attribute :permissions, Helpdesk.Support.Permissions, public?: true
+    attribute :is_admin, :boolean, public?: true
   end
 
   policies do
@@ -40,8 +41,8 @@ defmodule Helpdesk.Support.Representative do
   end
 
   field_policies do
-    field_policy [:name, :permissions] do
-      authorize_if actor_attribute_equals(:__struct__, User)
+    field_policy [:is_admin, :name, :permissions] do
+      authorize_if actor_attribute_equals(:__struct__, UserModuleDoesNotExist)
     end
 
     field_policy [:name] do
