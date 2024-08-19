@@ -23,18 +23,43 @@ defmodule Helpdesk.Support.RepresentativeTest do
   test "update Representative as self" do
     representative =
       Representative
-      |> Changeset.for_create(:create, %{name: "Jane Doe"}, authorize?: false)
+      |> Ash.Changeset.for_create(:create, %{name: "Jane Doe"}, authorize?: false)
       |> Ash.create!()
 
     representative =
       Representative
-      |> Query.select([:name])
-      |> Query.filter(id == ^representative.id)
-      |> Query.for_read(:read, %{}, authorize?: false)
+      |> Ash.Query.select([:name])
+      |> Ash.Query.filter(id == ^representative.id)
+      |> Ash.Query.for_read(:read, %{}, authorize?: false)
       |> Ash.read_one!()
 
     representative
-    |> Changeset.for_update(:update_self, %{name: "New Name"}, actor: representative)
+    |> Ash.Changeset.for_update(:update_self, %{name: "New Name"}, actor: representative)
     |> Ash.update!(actor: representative)
+  end
+
+  test "update Representative as admin" do
+    representative =
+      Representative
+      |> Ash.Changeset.for_create(:create, %{name: "Jane Doe"}, authorize?: false)
+      |> Ash.create!()
+
+    representative =
+      Representative
+      |> Ash.Query.select([:name])
+      |> Ash.Query.filter(id == ^representative.id)
+      |> Ash.Query.for_read(:read, %{}, authorize?: false)
+      |> Ash.read_one!()
+
+    actor_representative =
+      Representative
+      |> Ash.Changeset.for_create(:create, %{name: "Admin Rep", is_admin: true},
+        authorize?: false
+      )
+      |> Ash.create!()
+
+    representative
+    |> Ash.Changeset.for_update(:update, %{name: "New Name"}, actor: actor_representative)
+    |> Ash.update!(actor: actor_representative)
   end
 end
