@@ -31,22 +31,18 @@ defmodule Helpdesk.Support.Representative do
   end
 
   policies do
-    policy action [:read] do
-      authorize_if(always())
+    policy action [:read, :read_self, :update_self] do
+      authorize_if actor_attribute_equals(:__struct__, __MODULE__)
     end
 
     policy action [:create, :update, :destroy] do
       authorize_if actor_attribute_equals(:is_admin, true)
     end
-
-    policy action [:read_self, :update_self] do
-      authorize_if actor_attribute_equals(:__struct__, __MODULE__)
-    end
   end
 
   field_policies do
     field_policy [:is_admin, :name, :permissions] do
-      authorize_if actor_attribute_equals(:__struct__, UserModuleDoesNotExist)
+      authorize_if actor_attribute_equals(:is_admin, true)
     end
 
     field_policy [:name] do
