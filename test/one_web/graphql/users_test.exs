@@ -21,8 +21,6 @@ defmodule OneWeb.Graphql.UsersTest do
     """
 
     test "success", ctx do
-      group = One.Group.create_group!(%{name: "Test Group"}, authorize?: false)
-
       params = %{
         query: @signup_user,
         variables: %{
@@ -32,7 +30,6 @@ defmodule OneWeb.Graphql.UsersTest do
 
       resp =
         ctx.conn
-        |> put_req_header("x-group-id", group.id)
         |> post("/gql", params)
         |> json_response(200)
 
