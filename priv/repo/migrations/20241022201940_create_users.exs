@@ -10,9 +10,8 @@ defmodule One.Repo.Migrations.CreateUsers do
   def up do
     create table(:users, primary_key: false) do
       add :id, :uuid, null: false, default: fragment("gen_random_uuid()"), primary_key: true
-
       add :name, :text
-      add :email, :string, null: false
+      add :email, :string
 
       add :inserted_at, :utc_datetime_usec,
         null: false,
@@ -23,10 +22,14 @@ defmodule One.Repo.Migrations.CreateUsers do
         default: fragment("(now() AT TIME ZONE 'utc')")
     end
 
-    create unique_index(:users, ["(LOWER(email))"], name: "custom_users_unique_email_index")
+    create unique_index(:users, ["(LOWER(email))"], name: "users_users_unique_email_index")
   end
 
   def down do
+    drop_if_exists unique_index(:users, ["(LOWER(email))"],
+                     name: "users_users_unique_email_index"
+                   )
+
     drop table(:users)
   end
 end

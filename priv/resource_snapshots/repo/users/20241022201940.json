@@ -15,35 +15,6 @@
       "default": "nil",
       "generated?": false,
       "primary_key?": false,
-      "references": {
-        "deferrable": false,
-        "destination_attribute": "id",
-        "destination_attribute_default": null,
-        "destination_attribute_generated": null,
-        "index?": false,
-        "match_type": null,
-        "match_with": null,
-        "multitenancy": {
-          "attribute": null,
-          "global": null,
-          "strategy": null
-        },
-        "name": "users_group_id_fkey",
-        "on_delete": null,
-        "on_update": null,
-        "primary_key?": true,
-        "schema": "public",
-        "table": "groups"
-      },
-      "size": null,
-      "source": "group_id",
-      "type": "uuid"
-    },
-    {
-      "allow_nil?": true,
-      "default": "nil",
-      "generated?": false,
-      "primary_key?": false,
       "references": null,
       "size": null,
       "source": "name",
@@ -85,7 +56,7 @@
   "custom_indexes": [],
   "custom_statements": [],
   "has_create_action": true,
-  "hash": "ADD6BE253258F363312F11A6D46EC0F2369CB7569153BDACEFFCDBA9E30A0411",
+  "hash": "8CC6870A4C31BD65F074B5F8279B191215ABB0744AF578CB923A038CBA60D423",
   "identities": [
     {
       "all_tenants?": false,
@@ -103,9 +74,9 @@
     }
   ],
   "multitenancy": {
-    "attribute": "group_id",
-    "global": true,
-    "strategy": "attribute"
+    "attribute": null,
+    "global": null,
+    "strategy": null
   },
   "repo": "Elixir.One.Repo",
   "schema": null,

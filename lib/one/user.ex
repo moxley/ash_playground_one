@@ -30,7 +30,7 @@ defmodule One.User do
     migration_types email: :string
 
     unique_index_names [
-      {[:email], "custom_users_unique_email_index",
+      {[:email], "users_users_unique_email_index",
        "the email address is already being used in an existing account"}
     ]
 
