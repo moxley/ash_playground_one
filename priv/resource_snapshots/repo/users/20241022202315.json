@@ -56,7 +56,7 @@
   "custom_indexes": [],
   "custom_statements": [],
   "has_create_action": true,
-  "hash": "8CC6870A4C31BD65F074B5F8279B191215ABB0744AF578CB923A038CBA60D423",
+  "hash": "B839C99C3F9BBE4894E0A4D744DFAD99561A4536F3FEA9C421E05546ACC6ECDC",
   "identities": [
     {
       "all_tenants?": false,
@@ -64,8 +64,8 @@
       "index_name": "users_users_unique_email_index",
       "keys": [
         {
-          "type": "string",
-          "value": "(LOWER(email))"
+          "type": "atom",
+          "value": "email"
         }
       ],
       "name": "users_unique_email",

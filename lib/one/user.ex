@@ -16,11 +16,7 @@ defmodule One.User do
   end
 
   identities do
-    identity :users_unique_email, [:lower_email]
-  end
-
-  calculations do
-    calculate :lower_email, :string, expr(string_downcase(email))
+    identity :users_unique_email, [:email]
   end
 
   postgres do
@@ -33,8 +29,6 @@ defmodule One.User do
       {[:email], "users_users_unique_email_index",
        "the email address is already being used in an existing account"}
     ]
-
-    calculations_to_sql lower_email: "LOWER(email)"
   end
 
   actions do

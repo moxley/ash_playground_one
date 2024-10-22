@@ -22,13 +22,11 @@ defmodule One.Repo.Migrations.CreateUsers do
         default: fragment("(now() AT TIME ZONE 'utc')")
     end
 
-    create unique_index(:users, ["(LOWER(email))"], name: "users_users_unique_email_index")
+    create unique_index(:users, [:email], name: "users_users_unique_email_index")
   end
 
   def down do
-    drop_if_exists unique_index(:users, ["(LOWER(email))"],
-                     name: "users_users_unique_email_index"
-                   )
+    drop_if_exists unique_index(:users, [:email], name: "users_users_unique_email_index")
 
     drop table(:users)
   end
