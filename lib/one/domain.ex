@@ -3,6 +3,6 @@ defmodule One.Domain do
 
   resources do
     resource One.Group
-    # resource One.User
+    resource One.User
   end
 end

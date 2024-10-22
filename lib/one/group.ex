@@ -26,6 +26,7 @@ defmodule One.Group do
 
   code_interface do
     define :create_group, action: :create
+    define :get_by_id, action: :read, get_by: :id, not_found_error?: false
   end
 
   graphql do

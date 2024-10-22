@@ -12,6 +12,7 @@ defmodule OneWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug OneWeb.Plugs.PutGroup
     plug OneWeb.Plugs.AshActor
     plug AshGraphql.Plug
   end
