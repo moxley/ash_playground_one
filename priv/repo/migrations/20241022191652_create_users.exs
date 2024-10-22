@@ -11,15 +11,6 @@ defmodule One.Repo.Migrations.CreateUsers do
     create table(:users, primary_key: false) do
       add :id, :uuid, null: false, default: fragment("gen_random_uuid()"), primary_key: true
 
-      add :group_id,
-          references(:groups,
-            column: :id,
-            name: "users_group_id_fkey",
-            type: :uuid,
-            prefix: "public"
-          ),
-          null: false
-
       add :name, :text
       add :email, :string, null: false
 
@@ -32,18 +23,10 @@ defmodule One.Repo.Migrations.CreateUsers do
         default: fragment("(now() AT TIME ZONE 'utc')")
     end
 
-    create unique_index(:users, [:group_id, "(LOWER(email))"],
-             name: "custom_users_unique_email_index"
-           )
+    create unique_index(:users, ["(LOWER(email))"], name: "custom_users_unique_email_index")
   end
 
   def down do
-    drop_if_exists unique_index(:users, [:group_id, "(LOWER(email))"],
-                     name: "custom_users_unique_email_index"
-                   )
-
-    drop constraint(:users, "users_group_id_fkey")
-
     drop table(:users)
   end
 end

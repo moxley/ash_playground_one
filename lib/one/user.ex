@@ -8,7 +8,6 @@ defmodule One.User do
   attributes do
     uuid_primary_key :id
 
-    attribute :group_id, :uuid, public?: false
     attribute :name, :string, public?: true
     attribute :email, :string, public?: true
 
@@ -24,17 +23,6 @@ defmodule One.User do
     calculate :lower_email, :string, expr(string_downcase(email))
   end
 
-  relationships do
-    belongs_to :group, One.Group, public?: false
-  end
-
-  multitenancy do
-    strategy :attribute
-    attribute :group_id
-
-    global? true
-  end
-
   postgres do
     table "users"
     repo One.Repo
@@ -42,7 +30,7 @@ defmodule One.User do
     migration_types email: :string
 
     unique_index_names [
-      {[:email, :group_id], "custom_users_unique_email_index",
+      {[:email], "custom_users_unique_email_index",
        "the email address is already being used in an existing account"}
     ]
 
