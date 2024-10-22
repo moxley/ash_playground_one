@@ -1,6 +1,6 @@
 defmodule OneWeb.GraphqlSchema do
   use Absinthe.Schema
-  use AshGraphql, domains: [Helpdesk.Support]
+  use AshGraphql, domains: [Helpdesk.Support, One.Domain]
 
   # Example data
   @items %{

@@ -31,7 +31,7 @@ config :one, OneWeb.Endpoint,
 # at the `config/runtime.exs`.
 config :one, One.Mailer, adapter: Swoosh.Adapters.Local
 
-config :one, :ash_domains, [Helpdesk.Support]
+config :one, :ash_domains, [Helpdesk.Support, One.Domain]
 
 config :one, One.Guardian,
   issuer: "one",
