@@ -36,38 +36,50 @@ defmodule OneWeb.Graphql.UsersTest do
 
       assert %{"data" => %{"signupUser" => %{"result" => _result}}} = resp
 
-      # The following fails. Actual value is:
-      # [%{"code" => "forbidden_field", "fields" => [], "locations" => [%{"column" => 7, "line" => 5}], "message" => "forbidden field", "path" => ["signupUser", "result", "name"], "short_message" => "forbidden field", "vars" => %{}}]
-      #
-      # Log:
-      #       12:32:10.220 request_id=GADdQXXUF9hJtx4AAapF [warning] One.User.signup
-      #
-      # Policy Breakdown for selecting or loading fields fields: [:name]
-      # unknown actor
-      #
-      #   Bypass: Policy | 🔎:
-      #
-      #     condition: always true
-      #
-      #     authorize if: id == {:_actor, :id} | ✘ | 🔎
-      #
-      # SAT Solver statement:
-      #
-      #  ("id == {:_actor, :id}" or "always false") and ("id == {:_actor, :id}" or "always false")
-      # 12:32:10.223 request_id=GADdQXXUF9hJtx4AAapF [warning] One.User.read
-      #
-      # Policy Breakdown for selecting or loading fields fields: [:name, :email]
-      # unknown actor
-      #
-      #   Bypass: Policy | 🔎:
-      #
-      #     condition: always true
-      #
-      #     authorize if: id == {:_actor, :id} | ✘ | 🔎
-      #
-      # SAT Solver statement:
-      #
-      #  ("id == {:_actor, :id}" or "always false") and ("id == {:_actor, :id}" or "always false")
+      assert resp["errors"] == nil
+    end
+  end
+
+  describe "list_users" do
+    @list_users """
+    query ListUsers($filter: UserFilterInput) {
+      listUsers(filter: $filter) {
+        results {
+          id
+          name
+          email
+          isPublic
+          status
+        }
+      }
+    }
+    """
+
+    test "success", ctx do
+      _user =
+        One.User.create!(%{name: "User 1", email: "user@example.com", is_public: true},
+          authorize?: false
+        )
+
+      params = %{
+        query: @list_users,
+        variables: %{
+          filter: %{
+            or: [
+              %{status: %{eq: "ACTIVE"}},
+              %{status: %{eq: "INACTIVE"}}
+            ]
+          }
+        }
+      }
+
+      resp =
+        ctx.conn
+        |> post("/gql", params)
+        |> json_response(200)
+
+      dbg(resp)
+      assert %{"data" => %{"listUsers" => %{"results" => _results}}} = resp
 
       assert resp["errors"] == nil
     end
