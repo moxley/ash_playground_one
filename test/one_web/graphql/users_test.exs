@@ -8,6 +8,7 @@ defmodule OneWeb.Graphql.UsersTest do
         result {
           id
           name
+          email
         }
         errors {
           code

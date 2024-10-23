@@ -33,7 +33,7 @@ defmodule One.User do
 
   actions do
     default_accept :*
-    defaults [:read, :destroy]
+    defaults [:create, :read, :destroy]
 
     read :read_self do
       get? true
@@ -44,8 +44,6 @@ defmodule One.User do
       upsert? true
       upsert_identity :users_unique_email
       accept [:name, :email]
-
-      # change(&GF.Members.MemberActions.assign_id/2)
     end
   end
 
